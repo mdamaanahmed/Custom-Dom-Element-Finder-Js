@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>Dom Element Finder || Amaan Ansari</title>
+  </head>
+  <body>
+    <div id="parentNodeA">
+      <div>
+        <div></div>
+        <div>
+          <div></div>
+          <div>
+            <div id="childNodeA">this is the child node A</div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+    <div id="parentNodeB">
+      <div>
+        <div>BBBB</div>
+        <div>
+          <div>CCCC</div>
+          <div>
+            <div>this is the child node B</div>
+          </div>
+        </div>
+      </div>
+      <div>AAAAA</div>
+    </div>
+
+    <script>
+      // We have two same nodes first node has parent id as 'parentNodeA' and child id as 'childNodeA' and second node has only parent is as 'parentNodeB' so find the second node's child innerText-
+
+      const parentNodeA = document.getElementById("parentNodeA");
+      const parentNodeB = document.getElementById("parentNodeB");
+      const childNodeA = document.getElementById("childNodeA");
+
+      const childToParentPath = (parent, child) => {
+        const path = [];
+
+        while (child !== parent) {
+          const parentElement = child.parentElement;
+          const childrenArray = Array.from(parentElement.children);
+          path.push(childrenArray.indexOf(child));
+          child = parentElement;
+        }
+
+        return path;
+      };
+
+      const getValueFromSecondNodeUsingPath = (parent, path) => {
+        path.reverse().forEach((childIndex) => {
+          parent = parent.children[childIndex];
+        });
+
+        return parent.innerText;
+      };
+
+      const path = childToParentPath(parentNodeA, childNodeA);
+      const innerText = getValueFromSecondNodeUsingPath(parentNodeB, path);
+
+      console.log(innerText, "-----innerText");
+    </script>
+  </body>
+</html>
